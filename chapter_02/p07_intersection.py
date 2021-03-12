@@ -1,6 +1,43 @@
 from linked_list import LinkedList
 from LL import MyLL
 
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+        size1=1
+        size2=1
+        curr1=headA
+        curr2=headB
+        if curr1==None or curr2==None:
+            return None
+        while curr1.next!=None:
+            curr1=curr1.next
+            size1+=1
+        while curr2.next!=None:
+            curr2=curr2.next
+            size2+=1
+        if curr1!=curr2:
+            return None
+        if(size1>=size2):
+            larger=headA
+            smaller=headB
+        else:
+            larger=headB
+            smaller=headA
+        for _ in range(abs(size1-size2)):
+            larger=larger.next
+        while larger!=None:
+            if larger==smaller:
+                return larger
+            larger=larger.next
+            smaller=smaller.next
+        return None
+            
 
 def intersection(list1, list2):
     if list1.tail is not list2.tail:
