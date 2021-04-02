@@ -1,8 +1,74 @@
 from collections import deque
 
-from linked_list import LinkedList
+# from linked_list import LinkedList
 
+#LC
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
 
+root=TreeNode(7)
+lvl10=TreeNode(-7)
+root.left=lvl10
+lvl11=TreeNode(8)
+root.right=lvl11
+lvl20=TreeNode(-3)
+lvl11.left=lvl20
+lvl21=TreeNode(6)
+lvl11.right=lvl21
+lvl3=TreeNode(9)
+lvl20.right=lvl3
+lvl4=TreeNode(-5)
+lvl3.right=lvl4
+def levelOrder(root):
+    hM=[[root],[]]
+    levelNum=1
+    #we need to stop making the list once an entire level is None (end of tree)
+    allValuesInLevelNone=root==None
+    
+    while not allValuesInLevelNone:
+        allValuesInLevelNone=True
+        #looping over each node from the last level and appending their leaves to new level
+        for OneUpLevelNode in hM[levelNum-1]:
+            #we need to initialize list on the first iteration of the loop
+            if len(hM)==levelNum:
+                hM.append([])
+            if OneUpLevelNode!=None:
+                hM[levelNum].append(OneUpLevelNode.left)
+                hM[levelNum].append(OneUpLevelNode.right)
+                #if one of the values we just added is not None, then we know for sure that not all values in this level are None
+                if hM[levelNum][-1]!=None or hM[levelNum][-2]!=None:
+                    allValuesInLevelNone=False
+        levelNum+=1
+    
+    #dont need last level with all None
+    hM.pop()
+    #convert from list of objects to list of values and remove Nones
+    for levelNum in range(len(hM)):
+        hM[levelNum]=[node.val for node in hM[levelNum] if node!=None]
+    if hM==[[]]:
+        hM=[]
+    return hM
+
+levelOrder(root)
+# { [TreeNode{val: 7, 
+#           left: TreeNode{val: -7}
+#           right: TreeNode{val: 8, 
+#               left: TreeNode{val: -3, 
+#                   left: None, 
+#                   right: TreeNode{val: 9, 
+#                       left: None, 
+#                       right: TreeNode{val: -5, 
+#                           left: None, 
+#                           right: None}}}, 
+#               right: TreeNode{val: 6, left: None, right: None}}}], 
+# 1: #-7,8 [TreeNode{val: -7, left: None, right: None}, TreeNode{val: 8, left: TreeNode{val: -3, left: None, right: TreeNode{val: 9, left: None, right: TreeNode{val: -5, left: None, right: None}}}, right: TreeNode{val: 6, left: None, right: None}}], 
+# 2:#N,N,-3,6 [None, None, TreeNode{val: -3, left: None, right: TreeNode{val: 9, left: None, right: TreeNode{val: -5, left: None, right: None}}}, TreeNode{val: 6, left: None, right: None}], 
+# 3:#N,9,N,N [None, TreeNode{val: 9, left: None, right: TreeNode{val: -5, left: None, right: None}}, None, None], 
+# 4: []#should be -5
+# #should be level 5 with N,N}
 class BinaryNode:
     def __init__(self, name, left=None, right=None):
         self.name = name
@@ -87,4 +153,5 @@ def example():
 
 
 if __name__ == "__main__":
-    example()
+    # example()
+    pass

@@ -1,5 +1,5 @@
 import unittest
-
+from collections import deque
 # VISUAL OF TEST GRAPH:
 
 # A -- B
@@ -15,7 +15,38 @@ import unittest
 # P -- Q
 # |  /
 # R
+def hasRouteBFS(graph, s, t):
+    # write your code here
+    if s==t:
+        return True
+    visited={}
+    que=deque()
+    que.append(s)
+    while len(que)!=0:
+        leftNode=que.popleft()
+        if leftNode==t:
+            return True
+        for neighbor in graph[leftNode]:
+            if neighbor not in visited:
+                que.append(neighbor)
+        visited[leftNode]=True
+    return False
 
+def hasRouteDFSrecursive(graph,s,t, visited=None):
+    if s==t:
+        return True
+    if visited==None:
+        visited={s:True}
+    for node in graph[s]:
+        if node not in visited:
+            visited[node]=True
+            if node==t:
+                return True
+            if hasRouteDFSrecursive(graph,node,t,visited):
+                return True       
+    return False
+
+    
 
 def is_route(graph, start, end, visited=None):
     if visited is None:
@@ -60,12 +91,17 @@ class Test(unittest.TestCase):
         ("R", "A", False),
         ("P", "B", False),
     ]
-
+    print(tests)
     def test_is_route(self):
         for [start, end, expected] in self.tests:
-            actual = is_route(self.graph, start, end)
+            actual = hasRouteDFSrecursive(self.graph, start, end)
+            print([]==None)
             assert actual == expected
 
 
+
 if __name__ == "__main__":
+    # levelOrder(root)
     unittest.main()
+
+
