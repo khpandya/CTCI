@@ -5,6 +5,37 @@ class Node:
         self.left = None
         self.right = None
 
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+    def insertIntoBST(self, root: TreeNode, val: int) -> TreeNode:
+        #1 listen
+        #2 Example. 1) given 2) null becomes 5
+        #3 Brute Force - start at root, if key>r go right, else go left. stop when you want
+        # to go left or right but its None, and put it there.
+        curr=root
+        if curr is None:
+            root=TreeNode(val)
+            return root
+        while curr!=None:
+            if val>curr.val:
+                if curr.right!=None:
+                    curr=curr.right
+                else:
+                    curr.right=TreeNode(val)
+                    break
+            else:
+                if curr.left!=None:
+                    curr=curr.left
+                else:
+                    curr.left=TreeNode(val)
+                    break
+        return root
+        
 
 class BinarySearchTree:
     def __init__(self):
