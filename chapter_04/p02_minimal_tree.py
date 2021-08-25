@@ -18,6 +18,34 @@ class Node:
     def __str__(self):
         return self.disp()
 
+# best LC solution, without python slices
+class solution:
+    def sortedArrayToBST(self, nums):
+            return self.helper(nums, 0, len(nums))
+
+    def helper(self, nums, lower, upper):
+        if lower == upper: # only tricky part is to catch that lower==upper is the case to terminate
+            return None
+
+        mid = (lower + upper) // 2
+        node = TreeNode(nums[mid])
+        node.left = self.helper(nums, lower, mid)
+        node.right = self.helper(nums, mid+1, upper)
+
+        return node
+
+# easier but slower using slices
+def sortedArrayToBST(self, num):
+        if not num:
+            return None
+
+        mid = len(num) // 2
+
+        root = TreeNode(num[mid])
+        root.left = self.sortedArrayToBST(num[:mid])
+        root.right = self.sortedArrayToBST(num[mid+1:])
+
+        return root
 
 def array_to_binary_tree(array, start, end):
     if start > end:
@@ -34,4 +62,4 @@ def array_to_binary_tree(array, start, end):
 
 if __name__ == "__main__":
     test_array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 18, 22, 43, 144, 515, 4123]
-    print(array_to_binary_tree(test_array, 0, len(test_array) - 1))
+    print(minimalTree(test_array))

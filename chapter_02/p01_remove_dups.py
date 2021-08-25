@@ -32,23 +32,42 @@ def removeDupes2(ll):
                 fast=fast.nxt
         slow=slow.nxt
 
+def removeNegs(ll):
+    curr=ll.head
+    if curr==None:
+        return None
+    while(curr!=None):
+        if curr.val<0:
+            curr=curr.nxt
+        else:
+            break
+    if curr==None:
+        return
+    ll.head=curr
+    while curr.nxt!=None:
+        if curr.nxt.val<0:
+            curr.nxt=curr.nxt.nxt
+        else:
+            curr=curr.nxt 
+    
+
 
 def deleteNextNode(curr):
     curr.nxt=curr.nxt.nxt
 
 # test 3->1->5->1->3->3->4->0->4 should be 3->1->5->4->0
 obj=MyLL()
-obj.addAtTail(3)
-obj.addAtTail(1)
+obj.addAtTail(-3)
+obj.addAtTail(-11)
 obj.addAtTail(5)
 obj.addAtTail(1)
 obj.addAtTail(3)
 obj.addAtTail(3)
-obj.addAtTail(4)
+obj.addAtTail(-4)
 obj.addAtTail(0)
-obj.addAtTail(4)
+obj.addAtTail(-4)
 print(obj)
-removeDupes2(obj)
+removeNegs(obj)
 print(obj)
 
 # test 1-1-1-1 becomes 1

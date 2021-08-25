@@ -22,35 +22,34 @@ lvl3=TreeNode(9)
 lvl20.right=lvl3
 lvl4=TreeNode(-5)
 lvl3.right=lvl4
-def levelOrder(root):
-    hM=[[root],[]]
-    levelNum=1
-    #we need to stop making the list once an entire level is None (end of tree)
-    allValuesInLevelNone=root==None
+def levelOrder(self, root):
+    if root==None:
+        return []
+    levels={0:[root]}
+    lastLevel=False
+    level=0
+    while(not lastLevel):
+        for node in levels[level]:
+            if node.left:
+                if level+1 in levels:
+                    levels[level+1].append(node.left)
+                else:
+                    levels[level+1]=[node.left]
+            if node.right:
+                if level+1 in levels:
+                    levels[level+1].append(node.right)
+                else:
+                    levels[level+1]=[node.right]
+        if level+1 not in levels:
+            lastLevel=True
+        level+=1
     
-    while not allValuesInLevelNone:
-        allValuesInLevelNone=True
-        #looping over each node from the last level and appending their leaves to new level
-        for OneUpLevelNode in hM[levelNum-1]:
-            #we need to initialize list on the first iteration of the loop
-            if len(hM)==levelNum:
-                hM.append([])
-            if OneUpLevelNode!=None:
-                hM[levelNum].append(OneUpLevelNode.left)
-                hM[levelNum].append(OneUpLevelNode.right)
-                #if one of the values we just added is not None, then we know for sure that not all values in this level are None
-                if hM[levelNum][-1]!=None or hM[levelNum][-2]!=None:
-                    allValuesInLevelNone=False
-        levelNum+=1
+    result=[[] for level in levels]
+    for level in levels:
+        for node in levels[level]:
+            result[level].append(node.val)
     
-    #dont need last level with all None
-    hM.pop()
-    #convert from list of objects to list of values and remove Nones
-    for levelNum in range(len(hM)):
-        hM[levelNum]=[node.val for node in hM[levelNum] if node!=None]
-    if hM==[[]]:
-        hM=[]
-    return hM
+    return result
 
 levelOrder(root)
 # { [TreeNode{val: 7, 

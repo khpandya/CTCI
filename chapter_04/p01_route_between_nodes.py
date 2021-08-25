@@ -15,6 +15,21 @@ from collections import deque
 # P -- Q
 # |  /
 # R
+def hasRoute(graph,start,end):
+    print('run')
+    que=[start]
+    visited=set()
+    while(len(que)!=0):
+        curr=que.pop(0)
+        if curr==end:
+            return True
+        visited.add(curr)
+        for node in graph[curr]:
+            if node not in visited:
+                que.append(node)
+    return False
+
+
 def hasRouteBFS(graph, s, t):
     # write your code here
     if s==t:
@@ -94,7 +109,7 @@ class Test(unittest.TestCase):
     print(tests)
     def test_is_route(self):
         for [start, end, expected] in self.tests:
-            actual = hasRouteDFSrecursive(self.graph, start, end)
+            actual = hasRoute(self.graph, start, end)
             print([]==None)
             assert actual == expected
 
